@@ -14,21 +14,19 @@
       --text:#2a1f12;
       --muted:rgba(42,31,18,.70);
 
-      --card:rgba(255,255,255,.58);
-      --stroke:rgba(42,31,18,.10);
+      --stroke:rgba(42,31,18,.12);
       --shadow:rgba(40,25,10,.26);
+      --goldGlow: rgba(246,198,77,.40);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
-
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       overflow:hidden;
       touch-action:none;
-
       background:
         radial-gradient(900px 700px at 50% 16%, rgba(255,255,255,.62), transparent 62%),
         radial-gradient(1000px 800px at 22% 72%, rgba(214,170,116,.35), transparent 66%),
@@ -51,7 +49,7 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='sun' cx='50%25' cy='24%25' r='40%25'%3E%3Cstop offset='0%25' stop-color='%23fff3d8' stop-opacity='1'/%3E%3Cstop offset='60%25' stop-color='%23fff3d8' stop-opacity='.35'/%3E%3Cstop offset='100%25' stop-color='%23fff3d8' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='d1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23e9caa4' stop-opacity='.65'/%3E%3Cstop offset='100%25' stop-color='%23d7aa76' stop-opacity='.88'/%3E%3C/linearGradient%3E%3ClinearGradient id='d2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23f0d7b8' stop-opacity='.55'/%3E%3Cstop offset='100%25' stop-color='%23e2bf95' stop-opacity='.75'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='800' fill='none'/%3E%3Ccircle cx='600' cy='170' r='220' fill='url(%23sun)'/%3E%3Cpath d='M0 610 C140 540, 320 560, 470 590 C640 625, 780 520, 930 560 C1060 595, 1120 575, 1200 540 L1200 800 L0 800 Z' fill='url(%23d2)'/%3E%3Cpath d='M0 670 C120 610, 280 640, 420 675 C590 720, 770 615, 920 655 C1040 690, 1110 675, 1200 635 L1200 800 L0 800 Z' fill='url(%23d1)'/%3E%3C/svg%3E");
     }
 
-    /* subtle grain */
+    /* grain */
     body::after{
       content:"";
       position:fixed;
@@ -59,7 +57,7 @@
       pointer-events:none;
       background-image: radial-gradient(rgba(0,0,0,.06) 1px, transparent 1px);
       background-size: 3px 3px;
-      opacity:.14;
+      opacity:.13;
       mix-blend-mode: multiply;
     }
 
@@ -68,54 +66,47 @@
       height:100svh;
       width:100vw;
       padding:
-        calc(env(safe-area-inset-top) + 10px)
-        calc(env(safe-area-inset-right) + 10px)
-        calc(env(safe-area-inset-bottom) + 10px)
-        calc(env(safe-area-inset-left) + 10px);
+        calc(env(safe-area-inset-top) + 6px)
+        calc(env(safe-area-inset-right) + 6px)
+        calc(env(safe-area-inset-bottom) + 6px)
+        calc(env(safe-area-inset-left) + 6px);
     }
 
-    /* prettier title */
+    /* Title: smaller + better fit for phone */
     .title{
       position:absolute;
-      top: calc(env(safe-area-inset-top) + 10px);
+      top: calc(env(safe-area-inset-top) + 8px);
       left:50%;
       transform:translateX(-50%);
-      width:min(92vw, 560px);
+      width:min(94vw, 560px);
       text-align:center;
       z-index: 6;
-      transition: opacity .35s ease, transform .35s ease;
+      transition: opacity .28s ease, transform .28s ease;
     }
     .title .chip{
-      display:inline-block;
-      padding: 10px 16px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 9px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,.45);
-      border: 1px solid rgba(42,31,18,.10);
+      background: rgba(255,255,255,.52);
+      border: 1px solid var(--stroke);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 12px 28px rgba(40,25,10,.12);
     }
     .title .text{
-      display:inline-block;
       font-weight: 950;
       text-transform: uppercase;
-      letter-spacing: .18em;
-      font-size: clamp(16px, 4.6vw, 22px);
+      letter-spacing: .16em;
+      font-size: clamp(14px, 4.1vw, 18px);
       line-height:1.1;
       color: transparent;
       background: linear-gradient(180deg, #6a3e18, #2a1f12);
       -webkit-background-clip: text;
       background-clip: text;
-      text-shadow: 0 10px 20px rgba(255,255,255,.25);
     }
-    .title .spark{
-      display:inline-block;
-      margin: 0 8px;
-      font-size: 14px;
-      opacity:.75;
-      color: #6a3e18;
-      vertical-align: middle;
-    }
+    .title .spark{ color:#6a3e18; opacity:.75; font-size: 14px; }
 
     .stage{ position:absolute; inset:0; }
 
@@ -126,7 +117,7 @@
       user-select:none;
       -webkit-tap-highlight-color: transparent;
       filter: drop-shadow(0 18px 22px var(--shadow));
-      transition: opacity .35s ease, transform .45s ease, filter .45s ease;
+      transition: opacity .28s ease, transform .35s ease, filter .35s ease;
       z-index: 2;
     }
     .lamp button{
@@ -136,7 +127,7 @@
       width:100%;
       height:100%;
       cursor:pointer;
-      border-radius: 24px;
+      border-radius: 28px;
       touch-action:none;
     }
     .lamp img{
@@ -145,43 +136,44 @@
       object-fit: contain;
       display:block;
       pointer-events:none;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.20));
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.18));
     }
 
-    /* BIG lamps */
+    /* Phone-first layout: big lamps, tight spacing */
     .corner{
-      width: 36vw;
-      max-width: 210px;
-      min-width: 140px;
+      width: 44vw;
+      max-width: 260px;
+      min-width: 170px;
       aspect-ratio: 1 / 1;
-      opacity:.99;
+      opacity:.995;
     }
     .center{
-      width: 60vw;
-      max-width: 360px;
-      min-width: 230px;
+      width: 78vw;
+      max-width: 420px;
+      min-width: 260px;
       aspect-ratio: 1 / 1;
       left:50%;
-      top:56%;
+      top:50%;
       transform: translate(-50%, -50%);
       z-index: 3;
     }
 
-    .tl{ left: 6px; top: calc(env(safe-area-inset-top) + 74px); }
-    .tr{ right: 6px; top: calc(env(safe-area-inset-top) + 74px); }
-    .bl{ left: 6px; bottom: 6px; }
-    .br{ right: 6px; bottom: 6px; }
+    /* Arrange corners closer to center (fills screen) */
+    .tl{ left: 2vw;  top: 16vh; transform: rotate(-6deg); }
+    .tr{ right:2vw;  top: 16vh; transform: rotate( 6deg); }
+    .bl{ left: 2vw;  bottom: 10vh; transform: rotate( 5deg); }
+    .br{ right:2vw;  bottom: 10vh; transform: rotate(-5deg); }
 
-    /* Glow around center lamp */
+    /* Center glow */
     .center::before{
       content:"";
       position:absolute;
-      inset:-16%;
+      inset:-14%;
       border-radius: 999px;
       background:
-        radial-gradient(closest-side at 38% 30%, rgba(255,255,255,.55), transparent 55%),
-        radial-gradient(closest-side at 66% 66%, rgba(246,198,77,.38), transparent 60%),
-        radial-gradient(closest-side at 30% 70%, rgba(255,255,255,.22), transparent 60%);
+        radial-gradient(closest-side at 40% 30%, rgba(255,255,255,.60), transparent 55%),
+        radial-gradient(closest-side at 66% 66%, var(--goldGlow), transparent 60%),
+        radial-gradient(closest-side at 30% 70%, rgba(255,255,255,.24), transparent 60%);
       opacity:.55;
       filter: blur(1px);
       pointer-events:none;
@@ -194,15 +186,15 @@
     }
 
     .pulse{
-      animation: pulse 1.35s ease-in-out infinite;
-      filter: drop-shadow(0 18px 26px rgba(40,25,10,.32)) drop-shadow(0 0 22px rgba(246,198,77,.36));
+      animation: pulse 1.25s ease-in-out infinite;
+      filter: drop-shadow(0 18px 28px rgba(40,25,10,.28)) drop-shadow(0 0 26px rgba(246,198,77,.34));
     }
     @keyframes pulse{
       0%,100%{ transform: translate(-50%, -50%) scale(1); }
-      50%{ transform: translate(-50%, -50%) scale(1.06); }
+      50%{ transform: translate(-50%, -50%) scale(1.05); }
     }
 
-    /* Ambient dust */
+    /* Dust */
     .ambient{
       position:absolute;
       inset:0;
@@ -219,157 +211,45 @@
       background: rgba(255,255,255,.55);
       box-shadow: 0 0 14px rgba(255,255,255,.45);
       opacity:0;
-      transform: translate3d(0,0,0);
       animation: floatUp linear infinite;
     }
     @keyframes floatUp{
       0%   { transform: translate3d(0, 24px, 0) scale(.75); opacity:0; }
       10%  { opacity:.55; }
       70%  { opacity:.35; }
-      100% { transform: translate3d(0, -120px, 0) scale(1.05); opacity:0; }
+      100% { transform: translate3d(0, -140px, 0) scale(1.05); opacity:0; }
     }
 
-    /* Focus modes: no text */
+    /* Focus modes: only center lamp */
     body.mode-rub .title,
-    body.mode-win .title{
-      opacity:0;
-      transform: translateX(-50%) translateY(-12px);
-      pointer-events:none;
-    }
+    body.mode-win .title{ opacity:0; transform: translateX(-50%) translateY(-10px); pointer-events:none; }
+
     body.mode-rub .corner,
-    body.mode-win .corner{
-      opacity:0;
-      transform: scale(.85);
-      pointer-events:none;
-    }
+    body.mode-win .corner{ opacity:0; transform: scale(.86); pointer-events:none; }
 
     body.mode-rub .center{
       animation:none;
       transform: translate(-50%, -50%) scale(1.62);
-      filter: drop-shadow(0 30px 46px rgba(40,25,10,.35)) drop-shadow(0 0 34px rgba(246,198,77,.40));
+      filter: drop-shadow(0 30px 46px rgba(40,25,10,.32)) drop-shadow(0 0 38px rgba(246,198,77,.40));
     }
     body.mode-win .center{
       animation:none;
-      transform: translate(-50%, -50%) scale(1.55);
-      filter: drop-shadow(0 28px 44px rgba(40,25,10,.34)) drop-shadow(0 0 34px rgba(246,198,77,.38));
+      transform: translate(-50%, -50%) scale(1.50);
+      filter: drop-shadow(0 28px 44px rgba(40,25,10,.30)) drop-shadow(0 0 38px rgba(246,198,77,.36));
     }
 
-    body.mode-rub .ambient{ opacity:.22; }
+    body.mode-rub .ambient{ opacity:.18; }
     body.mode-win .ambient{ opacity:0; }
 
     body.mode-rub .center.rub-active{
       animation: rubWiggle .18s ease-in-out infinite alternate;
     }
     @keyframes rubWiggle{
-      from { transform: translate(-50%, -50%) scale(1.62) rotate(-1.2deg); }
-      to   { transform: translate(-50%, -50%) scale(1.62) rotate( 1.2deg); }
+      from { transform: translate(-50%, -50%) scale(1.62) rotate(-1.0deg); }
+      to   { transform: translate(-50%, -50%) scale(1.62) rotate( 1.0deg); }
     }
 
-    /* Prize: lower than middle */
-    .reward{
-      position:absolute;
-      left:50%;
-      top:68%;
-      transform: translate(-50%, -50%);
-      width: min(68vw, 340px);
-      max-width: 380px;
-      pointer-events:none;
-      opacity:0;
-      filter: drop-shadow(0 24px 34px rgba(40,25,10,.30));
-      z-index: 9;
-    }
-    .reward img{
-      width:100%;
-      height:auto;
-      display:block;
-      transform-origin: 50% 80%;
-      border-radius: 16px;
-      background: rgba(255,255,255,.35);
-      border: 1px solid rgba(42,31,18,.08);
-    }
-    .reward.show{
-      animation: rise .55s cubic-bezier(.18,.9,.22,1) forwards;
-      opacity:1;
-    }
-    @keyframes rise{
-      0%   { transform: translate(-50%, -10%) scale(.25) rotate(-8deg); opacity:0; }
-      100% { transform: translate(-50%, -58%) scale(1) rotate(0deg); opacity:1; }
-    }
-    .reward.float{ animation: floaty 2.6s ease-in-out infinite; }
-    @keyframes floaty{
-      0%,100%{ transform: translate(-50%, -58%) scale(1) rotate(0deg); }
-      50%{ transform: translate(-50%, -62%) scale(1.02) rotate(1.1deg); }
-    }
-
-    /* Form appears after win (but only after delay) */
-    .formCard{
-      position:absolute;
-      left:50%;
-      bottom: calc(env(safe-area-inset-bottom) + 12px);
-      transform: translateX(-50%) translateY(10px);
-      width: min(92vw, 520px);
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 18px;
-      padding: 14px;
-      box-shadow: 0 18px 44px rgba(40,25,10,.20);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .28s ease, transform .28s ease;
-      z-index: 10;
-    }
-    .formCard.reveal{
-      opacity:1;
-      pointer-events:auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .stack{ display:grid; gap:10px; }
-
-    .field{
-      width:100%;
-      appearance:none;
-      border: 1px solid rgba(42,31,18,.14);
-      background: rgba(255,255,255,.70);
-      color: var(--text);
-      padding: 12px 12px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight:700;
-      outline:none;
-    }
-    .field::placeholder{ color: rgba(42,31,18,.55); font-weight:700; }
-
-    .btn{
-      appearance:none;
-      border: 1px solid rgba(42,31,18,.14);
-      background: rgba(255,255,255,.65);
-      color: var(--text);
-      padding: 12px 12px;
-      border-radius: 14px;
-      font-weight:900;
-      font-size: 14px;
-      cursor:pointer;
-      box-shadow: 0 12px 26px rgba(40,25,10,.14);
-    }
-    .btn.primary{
-      border-color: rgba(246,198,77,.60);
-      background: rgba(246,198,77,.30);
-    }
-    .btn:active{ transform: translateY(1px); }
-
-    .shake{ animation: shake .22s ease-in-out 0s 2; }
-    @keyframes shake{
-      0%{ transform: translateX(-50%) translateY(0); }
-      25%{ transform: translateX(calc(-50% - 6px)) translateY(0); }
-      50%{ transform: translateX(calc(-50% + 6px)) translateY(0); }
-      75%{ transform: translateX(calc(-50% - 4px)) translateY(0); }
-      100%{ transform: translateX(-50%) translateY(0); }
-    }
-
-    /* Fireworks canvas */
+    /* Fireworks canvas: behind the prize (but above background) */
     canvas#fx{
       position:absolute;
       inset:0;
@@ -377,21 +257,148 @@
       height:100%;
       pointer-events:none;
       opacity:0;
-      transition: opacity .3s ease;
-      z-index: 5;
+      transition: opacity .25s ease;
+      z-index: 8; /* IMPORTANT: behind prize (9), above lamps */
     }
     body.mode-win canvas#fx{ opacity:1; }
 
-    /* warm dim while focused */
-    body.mode-rub::before,
-    body.mode-win::before{
-      content:"";
+    /* Prize: centered */
+    .reward{
       position:absolute;
-      inset:0;
-      background: radial-gradient(900px 600px at 50% 55%, rgba(255,255,255,.05), rgba(40,25,10,.20));
+      left:50%;
+      top:50%;
+      transform: translate(-50%, -50%);
+      width: min(72vw, 360px);
+      max-width: 390px;
       pointer-events:none;
-      opacity:.72;
-      z-index: 1;
+      opacity:0;
+      filter: drop-shadow(0 28px 46px rgba(40,25,10,.24));
+      z-index: 9; /* above fireworks */
+    }
+    .reward img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius: 18px;
+      background: rgba(255,255,255,.40);
+      border: 1px solid rgba(42,31,18,.10);
+    }
+    .reward.show{
+      animation: pop .50s cubic-bezier(.18,.9,.22,1) forwards;
+      opacity:1;
+    }
+    @keyframes pop{
+      0%   { transform: translate(-50%, -40%) scale(.25) rotate(-6deg); opacity:0; }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity:1; }
+    }
+
+    /* Fullscreen form overlay (opaque) */
+    .formOverlay{
+      position:fixed;
+      inset:0;
+      background: #fff7e9;            /* SOLID, not transparent */
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s ease;
+      z-index: 50;                    /* above everything */
+      display:flex;
+      flex-direction:column;
+      padding:
+        calc(env(safe-area-inset-top) + 18px)
+        calc(env(safe-area-inset-right) + 16px)
+        calc(env(safe-area-inset-bottom) + 16px)
+        calc(env(safe-area-inset-left) + 16px);
+    }
+    .formOverlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .formTop{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom: 16px;
+    }
+    .formTop .miniTitle{
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color:#2a1f12;
+      opacity:.88;
+    }
+    .formTop .dot{ width:7px; height:7px; border-radius:999px; background: rgba(106,62,24,.35); }
+
+    .formContent{
+      width:100%;
+      max-width: 520px;
+      margin: 0 auto;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .previewCard{
+      background:#fff;
+      border: 1px solid rgba(42,31,18,.10);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 44px rgba(40,25,10,.14);
+      display:grid;
+      place-items:center;
+    }
+    .previewCard img{
+      width:min(70vw, 320px);
+      max-height: 26vh;
+      object-fit: contain;
+      display:block;
+      filter: drop-shadow(0 16px 22px rgba(40,25,10,.14));
+    }
+
+    .field{
+      width:100%;
+      appearance:none;
+      border: 1px solid rgba(42,31,18,.14);
+      background: #fff;
+      color: var(--text);
+      padding: 14px 14px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight:700;
+      outline:none;
+      box-shadow: 0 10px 24px rgba(40,25,10,.08);
+    }
+    .field::placeholder{ color: rgba(42,31,18,.55); font-weight:700; }
+
+    .btnRow{ display:flex; gap:10px; margin-top: 4px; }
+    .btn{
+      flex:1;
+      appearance:none;
+      border: 1px solid rgba(42,31,18,.14);
+      background: #fff;
+      color: var(--text);
+      padding: 14px 12px;
+      border-radius: 16px;
+      font-weight: 950;
+      font-size: 14px;
+      cursor:pointer;
+      box-shadow: 0 12px 26px rgba(40,25,10,.10);
+    }
+    .btn.primary{
+      border-color: rgba(246,198,77,.75);
+      background: rgba(246,198,77,.34);
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .shake{ animation: shake .22s ease-in-out 0s 2; }
+    @keyframes shake{
+      0%{ transform: translateX(0); }
+      25%{ transform: translateX(-6px); }
+      50%{ transform: translateX(6px); }
+      75%{ transform: translateX(-4px); }
+      100%{ transform: translateX(0); }
     }
 
     /* Fullscreen checkmark overlay */
@@ -400,12 +407,10 @@
       inset:0;
       display:grid;
       place-items:center;
-      background: rgba(255,255,255,.82);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: #fff7e9; /* solid */
       opacity:0;
       pointer-events:none;
-      transition: opacity .22s ease;
+      transition: opacity .18s ease;
       z-index: 100;
     }
     .successOverlay.show{
@@ -431,10 +436,24 @@
       text-shadow: 0 14px 30px rgba(40,25,10,.12);
     }
 
+    /* warm dim while focused */
+    body.mode-rub::before,
+    body.mode-win::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 600px at 50% 55%, rgba(255,255,255,.05), rgba(40,25,10,.20));
+      pointer-events:none;
+      opacity:.66;
+      z-index: 1;
+    }
+
+    /* Very small phones: tighten even more */
     @media (max-height: 700px){
-      .tl,.tr{ top: calc(env(safe-area-inset-top) + 88px); }
-      .center{ top:58%; }
-      .reward{ top:70%; }
+      .tl,.tr{ top: 14vh; }
+      .bl,.br{ bottom: 8vh; }
+      .center{ top: 52%; width: 82vw; }
+      .corner{ width: 46vw; }
     }
   </style>
 </head>
@@ -449,63 +468,74 @@
 
     <div class="ambient" id="ambient" aria-hidden="true"></div>
 
+    <!-- Fireworks (behind prize) -->
     <canvas id="fx"></canvas>
 
     <div class="stage" id="stage">
-      <!-- Corner lamps (silver) -->
+      <!-- Corner lamps -->
       <div class="lamp corner tl" aria-hidden="true">
         <button tabindex="-1" aria-hidden="true">
           <img alt="Silver genie lamp" src="https://i.postimg.cc/8CPx8fsy/4b0be5b12591e78dec8c6f48ff961c4f-removebg-preview.png">
         </button>
       </div>
-
       <div class="lamp corner tr" aria-hidden="true">
         <button tabindex="-1" aria-hidden="true">
           <img alt="Silver genie lamp" src="https://i.postimg.cc/8CPx8fsy/4b0be5b12591e78dec8c6f48ff961c4f-removebg-preview.png">
         </button>
       </div>
-
       <div class="lamp corner bl" aria-hidden="true">
         <button tabindex="-1" aria-hidden="true">
           <img alt="Silver genie lamp" src="https://i.postimg.cc/8CPx8fsy/4b0be5b12591e78dec8c6f48ff961c4f-removebg-preview.png">
         </button>
       </div>
-
       <div class="lamp corner br" aria-hidden="true">
         <button tabindex="-1" aria-hidden="true">
           <img alt="Silver genie lamp" src="https://i.postimg.cc/8CPx8fsy/4b0be5b12591e78dec8c6f48ff961c4f-removebg-preview.png">
         </button>
       </div>
 
-      <!-- Center lamp (gold) -->
+      <!-- Center lamp -->
       <div class="lamp center pulse" id="centerLamp" aria-label="Golden genie lamp">
         <button id="centerBtn" aria-label="Golden genie lamp. Tap to focus, then rub to summon a prize.">
           <img alt="Golden genie lamp" src="https://i.postimg.cc/RhnR547x/67db9b3ee05eecd742c46f0e928d8b6b-removebg-preview.png">
         </button>
       </div>
 
-      <!-- Prize -->
+      <!-- Prize (centered) -->
       <div class="reward" id="reward" aria-hidden="true">
         <img id="rewardImg" alt="Prize" />
       </div>
+    </div>
+  </div>
 
-      <!-- Form (appears after 1–2s delay) -->
-      <div class="formCard" id="formCard" aria-hidden="true">
-        <form id="leadForm" class="stack">
-          <input class="field" id="nameField" name="name" autocomplete="name" placeholder="Name" aria-label="Name" required>
-          <input class="field" id="phoneField" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                 placeholder="Phone number" aria-label="Phone number" required>
+  <!-- Fullscreen form (opaque) -->
+  <div class="formOverlay" id="formOverlay" aria-hidden="true">
+    <div class="formTop">
+      <span class="dot"></span><div class="miniTitle">Get insights</div><span class="dot"></span>
+    </div>
+
+    <div class="formContent">
+      <div class="previewCard" id="previewCard">
+        <img id="previewImg" alt="Your reward" />
+      </div>
+
+      <form id="leadForm" class="stack">
+        <input class="field" id="nameField" name="name" autocomplete="name" placeholder="Name" aria-label="Name" required>
+        <input class="field" id="phoneField" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+               placeholder="Phone number" aria-label="Phone number" required>
+
+        <div class="btnRow">
           <button class="btn primary" type="submit">Get insights</button>
           <button class="btn" type="button" id="backBtn">Back</button>
-        </form>
-      </div>
-
-      <!-- Fullscreen checkmark -->
-      <div class="successOverlay" id="successOverlay" aria-hidden="true">
-        <div class="badge">
-          <div class="check">✓</div>
         </div>
-      </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Fullscreen checkmark -->
+  <div class="successOverlay" id="successOverlay" aria-hidden="true">
+    <div class="badge">
+      <div class="check">✓</div>
     </div>
   </div>
 
@@ -516,24 +546,25 @@
       "https://i.postimg.cc/nrw1NM9t/7e560478f068da59a3ab5ca8b82cbe79-removebg-preview.png"
     ];
 
-    const body        = document.body;
-    const ambient     = document.getElementById("ambient");
-    const centerLamp  = document.getElementById("centerLamp");
-    const centerBtn   = document.getElementById("centerBtn");
+    const body         = document.body;
+    const ambient      = document.getElementById("ambient");
+    const centerLamp   = document.getElementById("centerLamp");
+    const centerBtn    = document.getElementById("centerBtn");
 
-    const rewardWrap  = document.getElementById("reward");
-    const rewardImg   = document.getElementById("rewardImg");
+    const rewardWrap   = document.getElementById("reward");
+    const rewardImg    = document.getElementById("rewardImg");
 
-    const formCard    = document.getElementById("formCard");
-    const leadForm    = document.getElementById("leadForm");
-    const nameField   = document.getElementById("nameField");
-    const phoneField  = document.getElementById("phoneField");
-    const backBtn     = document.getElementById("backBtn");
+    const formOverlay  = document.getElementById("formOverlay");
+    const previewImg   = document.getElementById("previewImg");
+    const leadForm     = document.getElementById("leadForm");
+    const nameField    = document.getElementById("nameField");
+    const phoneField   = document.getElementById("phoneField");
+    const backBtn      = document.getElementById("backBtn");
 
     const successOverlay = document.getElementById("successOverlay");
 
-    const fxCanvas    = document.getElementById("fx");
-    const ctx         = fxCanvas.getContext("2d");
+    const fxCanvas     = document.getElementById("fx");
+    const ctx          = fxCanvas.getContext("2d");
 
     // timers
     let revealTimer = null;
@@ -542,13 +573,13 @@
     // ---- Dust ----
     function makeDust(){
       ambient.innerHTML = "";
-      const count = 16;
+      const count = 18;
       for (let i=0;i<count;i++){
         const d = document.createElement("span");
         d.className = "dust";
         const x = Math.random() * 100;
-        const y = 40 + Math.random() * 60;
-        const s = 4 + Math.random() * 6;
+        const y = 35 + Math.random() * 60;
+        const s = 4 + Math.random() * 7;
         const dur = 6 + Math.random() * 10;
         const delay = Math.random() * dur;
 
@@ -590,9 +621,21 @@
       successOverlay.setAttribute("aria-hidden","true");
     }
 
+    function hideForm(){
+      formOverlay.classList.remove("show");
+      formOverlay.setAttribute("aria-hidden","true");
+    }
+
+    function showForm(){
+      formOverlay.classList.add("show");
+      formOverlay.setAttribute("aria-hidden","false");
+      setTimeout(() => nameField.focus({preventScroll:true}), 50);
+    }
+
     function toRubMode(){
       clearTimers();
       hideSuccess();
+      hideForm();
 
       mode = "rub";
       body.classList.remove("mode-choose","mode-win");
@@ -604,11 +647,9 @@
       rubStart = 0;
       summoned = false;
 
-      rewardWrap.classList.remove("show","float");
+      rewardWrap.classList.remove("show");
       rewardWrap.style.opacity = 0;
 
-      formCard.classList.remove("reveal");
-      formCard.setAttribute("aria-hidden","true");
       nameField.value = "";
       phoneField.value = "";
 
@@ -618,33 +659,33 @@
     function toWinMode(prizeUrl){
       clearTimers();
       hideSuccess();
+      hideForm();
 
       mode = "win";
       body.classList.remove("mode-choose","mode-rub");
       body.classList.add("mode-win");
 
-      // show prize immediately
+      // show prize immediately (center)
       rewardImg.src = prizeUrl;
       rewardWrap.style.opacity = 1;
       rewardWrap.classList.add("show");
-      setTimeout(() => rewardWrap.classList.add("float"), 700);
 
-      // hide form first, then reveal after 1–2 seconds
-      formCard.classList.remove("reveal");
-      formCard.setAttribute("aria-hidden","true");
+      // fireworks behind product (origin = product center)
+      requestAnimationFrame(() => {
+        startFireworksBehindPrize();
+      });
 
+      // show product for ~1.4s then open FULLSCREEN form
+      previewImg.src = prizeUrl;
       revealTimer = setTimeout(() => {
-        formCard.classList.add("reveal");
-        formCard.setAttribute("aria-hidden","false");
-        nameField.focus({ preventScroll: true });
-      }, 1400); // ~1.4s (between 1–2 sec)
-
-      startFireworksFromLamp();
+        showForm();
+      }, 1400);
     }
 
     function resetAll(){
       clearTimers();
       hideSuccess();
+      hideForm();
 
       mode = "choose";
       body.classList.remove("mode-rub","mode-win");
@@ -658,11 +699,9 @@
       rubStart = 0;
       summoned = false;
 
-      rewardWrap.classList.remove("show","float");
+      rewardWrap.classList.remove("show");
       rewardWrap.style.opacity = 0;
 
-      formCard.classList.remove("reveal");
-      formCard.setAttribute("aria-hidden","true");
       nameField.value = "";
       phoneField.value = "";
 
@@ -717,12 +756,12 @@
 
       const t = performance.now() - rubStart;
 
-      // ~1–2 seconds + some movement
+      // ~1–2 sec + movement
       const timeOk = t / 1100;
-      const distOk = rubDistance / 860;
+      const distOk = rubDistance / 900;
       const p = Math.min(1, (timeOk * 0.62) + (distOk * 0.38));
 
-      if (t >= 880 && rubDistance >= 600 && p >= 0.985){
+      if (t >= 880 && rubDistance >= 620 && p >= 0.985){
         summon();
       }
 
@@ -748,7 +787,7 @@
       toWinMode(prizeUrl);
     }
 
-    // ---- Lead form ----
+    // ---- Form submit ----
     leadForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -756,40 +795,37 @@
       const phone = phoneField.value.trim();
 
       if (!name || !phone){
-        formCard.classList.remove("shake");
-        void formCard.offsetWidth;
-        formCard.classList.add("shake");
+        formOverlay.classList.remove("shake");
+        void formOverlay.offsetWidth;
+        formOverlay.classList.add("shake");
         return;
       }
 
-      // demo submit
       console.log("Lead submitted:", { name, phone });
 
-      // full screen checkmark
+      // fullscreen checkmark
+      hideForm();
       successOverlay.classList.add("show");
       successOverlay.setAttribute("aria-hidden","false");
 
-      // optional: auto-return after a moment
-      successTimer = setTimeout(() => {
-        resetAll();
-      }, 1600);
+      // auto reset
+      successTimer = setTimeout(() => resetAll(), 1500);
     });
 
-    // tap overlay to return instantly (no text)
-    successOverlay.addEventListener("click", () => resetAll());
+    successOverlay.addEventListener("click", resetAll);
 
-    // ---- Fireworks ----
+    // ---- Fireworks (behind product) ----
     let particles = [];
     let burstsActive = false;
     let rafId = null;
     let burstTimerId = null;
 
-    function startFireworksFromLamp(){
+    function startFireworksBehindPrize(){
       resizeCanvas();
-      const rect = centerLamp.getBoundingClientRect();
+      const rect = rewardWrap.getBoundingClientRect();
       const origin = {
         x: rect.left + rect.width * 0.50,
-        y: rect.top  + rect.height * 0.24
+        y: rect.top  + rect.height * 0.50
       };
 
       particles = [];
@@ -798,14 +834,14 @@
       const start = performance.now();
       burstTimerId = setInterval(() => {
         const now = performance.now();
-        if (now - start > 1600){
+        if (now - start > 1200){
           clearInterval(burstTimerId);
           burstTimerId = null;
           burstsActive = false;
           return;
         }
         spawnBurst(origin.x, origin.y);
-      }, 170);
+      }, 160);
 
       spawnBurst(origin.x, origin.y);
       spawnBurst(origin.x, origin.y);
@@ -822,21 +858,21 @@
     }
 
     function spawnBurst(x,y){
-      const count = 56 + Math.floor(Math.random()*24);
+      const count = 64 + Math.floor(Math.random()*22);
       const baseHue = Math.random()*360;
 
       for (let i=0;i<count;i++){
         const ang = Math.random() * Math.PI * 2;
-        const spd = 2.6 + Math.random() * 5.8;
+        const spd = 2.2 + Math.random() * 5.2;
 
         particles.push({
           x, y,
           vx: Math.cos(ang) * spd,
-          vy: Math.sin(ang) * spd - (2.1 + Math.random()*1.7),
-          g: 0.10 + Math.random()*0.08,
+          vy: Math.sin(ang) * spd - (1.6 + Math.random()*1.4),
+          g: 0.10 + Math.random()*0.07,
           life: 1,
-          decay: 0.012 + Math.random()*0.012,
-          size: 1.2 + Math.random()*2.2,
+          decay: 0.014 + Math.random()*0.012,
+          size: 1.2 + Math.random()*2.3,
           hue: (baseHue + Math.random()*70) % 360
         });
       }
@@ -847,7 +883,8 @@
       const w = fxCanvas.clientWidth;
       const h = fxCanvas.clientHeight;
 
-      ctx.fillStyle = "rgba(255,255,255,0.16)";
+      // lighter trail
+      ctx.fillStyle = "rgba(255,255,255,0.18)";
       ctx.fillRect(0,0,w,h);
 
       for (let i = particles.length - 1; i >= 0; i--){
@@ -857,7 +894,7 @@
         p.y += p.vy;
         p.life -= p.decay;
 
-        if (p.life <= 0 || p.y > h + 20 || p.x < -20 || p.x > w + 20){
+        if (p.life <= 0 || p.y > h + 30 || p.x < -30 || p.x > w + 30){
           particles.splice(i,1);
           continue;
         }
@@ -871,12 +908,14 @@
       if (!burstsActive && particles.length === 0){
         cancelAnimationFrame(rafId);
         rafId = null;
-        ctx.clearRect(0,0,fxCanvas.clientWidth, fxCanvas.clientHeight);
+        ctx.clearRect(0,0,w,h);
       }
     }
 
     // Start
+    makeDust();
     resetAll();
   </script>
 </body>
 </html>
+
