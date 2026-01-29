@@ -336,9 +336,9 @@
       padding-bottom: 6px;
     }
 
+    /* ✅ UPDATED: make form slightly narrower than phone screen */
     .formContent{
-      width:100%;
-      max-width: 520px;
+      width: min(92vw, 520px);
       margin: 0 auto;
       display:flex;
       flex-direction:column;
@@ -398,7 +398,7 @@
     }
     .btn:active{ transform: translateY(1px); }
 
-    /* If super narrow, stack buttons */
+    /* If super narrow, stack buttons (still ok with one button) */
     @media (max-width: 360px){
       .btnRow{ flex-direction:column; }
     }
@@ -412,7 +412,7 @@
       100%{ transform: translateX(0); }
     }
 
-    /* Checkmark overlay */
+    /* ✅ UPDATED: Checkmark overlay centered + safe-area + phone-friendly sizing */
     .successOverlay{
       position:fixed;
       inset:0;
@@ -423,13 +423,19 @@
       pointer-events:none;
       transition: opacity .18s ease;
       z-index: 100;
+
+      padding:
+        calc(env(safe-area-inset-top) + 14px)
+        calc(env(safe-area-inset-right) + 14px)
+        calc(env(safe-area-inset-bottom) + 14px)
+        calc(env(safe-area-inset-left) + 14px);
     }
     .successOverlay.show{
       opacity:1;
       pointer-events:auto;
     }
     .successOverlay .badge{
-      width: min(78vw, 320px);
+      width: clamp(220px, 72vw, 320px);
       aspect-ratio: 1/1;
       border-radius: 999px;
       background: rgba(246,198,77,.22);
@@ -439,11 +445,11 @@
       box-shadow: 0 30px 80px rgba(40,25,10,.18);
     }
     .successOverlay .check{
-      font-size: min(46vw, 220px);
+      font-size: clamp(120px, 42vw, 220px);
       line-height: 1;
       font-weight: 1000;
       color: #2a1f12;
-      transform: translateY(-2%);
+      transform: none;
       text-shadow: 0 14px 30px rgba(40,25,10,.12);
     }
 
@@ -531,7 +537,7 @@
 
           <div class="btnRow">
             <button class="btn primary" type="submit">Get insights</button>
-            <button class="btn" type="button" id="backBtn">Back</button>
+            <!-- ✅ Back button removed -->
           </div>
         </form>
       </div>
@@ -564,7 +570,7 @@
     const leadForm     = document.getElementById("leadForm");
     const nameField    = document.getElementById("nameField");
     const phoneField   = document.getElementById("phoneField");
-    const backBtn      = document.getElementById("backBtn");
+    // ✅ backBtn removed
 
     const successOverlay = document.getElementById("successOverlay");
 
@@ -710,8 +716,6 @@
     centerBtn.addEventListener("click", () => {
       if (mode === "choose") toRubMode();
     });
-
-    backBtn.addEventListener("click", resetAll);
 
     function insideLamp(clientX, clientY){
       const r = centerLamp.getBoundingClientRect();
@@ -909,4 +913,5 @@
   </script>
 </body>
 </html>
+
 
