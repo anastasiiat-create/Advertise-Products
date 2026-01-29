@@ -72,7 +72,6 @@
         calc(env(safe-area-inset-left) + 6px);
     }
 
-    /* Title: smaller + better fit for phone */
     .title{
       position:absolute;
       top: calc(env(safe-area-inset-top) + 8px);
@@ -139,7 +138,7 @@
       filter: drop-shadow(0 10px 18px rgba(0,0,0,.18));
     }
 
-    /* Phone-first layout: big lamps, tight spacing */
+    /* Phone-first layout */
     .corner{
       width: 44vw;
       max-width: 260px;
@@ -158,13 +157,11 @@
       z-index: 3;
     }
 
-    /* Arrange corners closer to center (fills screen) */
     .tl{ left: 2vw;  top: 16vh; transform: rotate(-6deg); }
     .tr{ right:2vw;  top: 16vh; transform: rotate( 6deg); }
     .bl{ left: 2vw;  bottom: 10vh; transform: rotate( 5deg); }
     .br{ right:2vw;  bottom: 10vh; transform: rotate(-5deg); }
 
-    /* Center glow */
     .center::before{
       content:"";
       position:absolute;
@@ -194,7 +191,6 @@
       50%{ transform: translate(-50%, -50%) scale(1.05); }
     }
 
-    /* Dust */
     .ambient{
       position:absolute;
       inset:0;
@@ -220,7 +216,7 @@
       100% { transform: translate3d(0, -140px, 0) scale(1.05); opacity:0; }
     }
 
-    /* Focus modes: only center lamp */
+    /* Focus modes */
     body.mode-rub .title,
     body.mode-win .title{ opacity:0; transform: translateX(-50%) translateY(-10px); pointer-events:none; }
 
@@ -249,7 +245,7 @@
       to   { transform: translate(-50%, -50%) scale(1.62) rotate( 1.0deg); }
     }
 
-    /* Fireworks canvas: behind the prize (but above background) */
+    /* Fireworks behind product */
     canvas#fx{
       position:absolute;
       inset:0;
@@ -258,11 +254,11 @@
       pointer-events:none;
       opacity:0;
       transition: opacity .25s ease;
-      z-index: 8; /* IMPORTANT: behind prize (9), above lamps */
+      z-index: 8;
     }
     body.mode-win canvas#fx{ opacity:1; }
 
-    /* Prize: centered */
+    /* Prize centered */
     .reward{
       position:absolute;
       left:50%;
@@ -273,7 +269,7 @@
       pointer-events:none;
       opacity:0;
       filter: drop-shadow(0 28px 46px rgba(40,25,10,.24));
-      z-index: 9; /* above fireworks */
+      z-index: 9;
     }
     .reward img{
       width:100%;
@@ -292,22 +288,22 @@
       100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity:1; }
     }
 
-    /* Fullscreen form overlay (opaque) */
+    /* Fullscreen form overlay (SOLID) - phone safe & no overflow */
     .formOverlay{
       position:fixed;
       inset:0;
-      background: #fff7e9;            /* SOLID, not transparent */
+      background: #fff7e9;
       opacity:0;
       pointer-events:none;
       transition: opacity .22s ease;
-      z-index: 50;                    /* above everything */
+      z-index: 50;
       display:flex;
       flex-direction:column;
       padding:
-        calc(env(safe-area-inset-top) + 18px)
-        calc(env(safe-area-inset-right) + 16px)
-        calc(env(safe-area-inset-bottom) + 16px)
-        calc(env(safe-area-inset-left) + 16px);
+        calc(env(safe-area-inset-top) + 14px)
+        calc(env(safe-area-inset-right) + 14px)
+        calc(env(safe-area-inset-bottom) + 14px)
+        calc(env(safe-area-inset-left) + 14px);
     }
     .formOverlay.show{
       opacity:1;
@@ -319,7 +315,8 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      margin-bottom: 16px;
+      padding-bottom: 10px;
+      flex: 0 0 auto;
     }
     .formTop .miniTitle{
       font-weight: 950;
@@ -330,6 +327,14 @@
       opacity:.88;
     }
     .formTop .dot{ width:7px; height:7px; border-radius:999px; background: rgba(106,62,24,.35); }
+
+    /* Scrollable content area to avoid "edges popping out" on small screens */
+    .formScroll{
+      flex: 1 1 auto;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 6px;
+    }
 
     .formContent{
       width:100%;
@@ -344,14 +349,14 @@
       background:#fff;
       border: 1px solid rgba(42,31,18,.10);
       border-radius: 18px;
-      padding: 14px;
+      padding: 12px;
       box-shadow: 0 18px 44px rgba(40,25,10,.14);
       display:grid;
       place-items:center;
     }
     .previewCard img{
-      width:min(70vw, 320px);
-      max-height: 26vh;
+      width:min(78vw, 320px);
+      height: min(26vh, 220px);
       object-fit: contain;
       display:block;
       filter: drop-shadow(0 16px 22px rgba(40,25,10,.14));
@@ -385,12 +390,18 @@
       font-size: 14px;
       cursor:pointer;
       box-shadow: 0 12px 26px rgba(40,25,10,.10);
+      min-width: 0; /* prevents overflow in flex */
     }
     .btn.primary{
       border-color: rgba(246,198,77,.75);
       background: rgba(246,198,77,.34);
     }
     .btn:active{ transform: translateY(1px); }
+
+    /* If super narrow, stack buttons */
+    @media (max-width: 360px){
+      .btnRow{ flex-direction:column; }
+    }
 
     .shake{ animation: shake .22s ease-in-out 0s 2; }
     @keyframes shake{
@@ -401,13 +412,13 @@
       100%{ transform: translateX(0); }
     }
 
-    /* Fullscreen checkmark overlay */
+    /* Checkmark overlay */
     .successOverlay{
       position:fixed;
       inset:0;
       display:grid;
       place-items:center;
-      background: #fff7e9; /* solid */
+      background: #fff7e9;
       opacity:0;
       pointer-events:none;
       transition: opacity .18s ease;
@@ -436,7 +447,6 @@
       text-shadow: 0 14px 30px rgba(40,25,10,.12);
     }
 
-    /* warm dim while focused */
     body.mode-rub::before,
     body.mode-win::before{
       content:"";
@@ -448,7 +458,6 @@
       z-index: 1;
     }
 
-    /* Very small phones: tighten even more */
     @media (max-height: 700px){
       .tl,.tr{ top: 14vh; }
       .bl,.br{ bottom: 8vh; }
@@ -468,11 +477,9 @@
 
     <div class="ambient" id="ambient" aria-hidden="true"></div>
 
-    <!-- Fireworks (behind prize) -->
     <canvas id="fx"></canvas>
 
     <div class="stage" id="stage">
-      <!-- Corner lamps -->
       <div class="lamp corner tl" aria-hidden="true">
         <button tabindex="-1" aria-hidden="true">
           <img alt="Silver genie lamp" src="https://i.postimg.cc/8CPx8fsy/4b0be5b12591e78dec8c6f48ff961c4f-removebg-preview.png">
@@ -494,45 +501,43 @@
         </button>
       </div>
 
-      <!-- Center lamp -->
       <div class="lamp center pulse" id="centerLamp" aria-label="Golden genie lamp">
         <button id="centerBtn" aria-label="Golden genie lamp. Tap to focus, then rub to summon a prize.">
           <img alt="Golden genie lamp" src="https://i.postimg.cc/RhnR547x/67db9b3ee05eecd742c46f0e928d8b6b-removebg-preview.png">
         </button>
       </div>
 
-      <!-- Prize (centered) -->
       <div class="reward" id="reward" aria-hidden="true">
         <img id="rewardImg" alt="Prize" />
       </div>
     </div>
   </div>
 
-  <!-- Fullscreen form (opaque) -->
   <div class="formOverlay" id="formOverlay" aria-hidden="true">
     <div class="formTop">
       <span class="dot"></span><div class="miniTitle">Get insights</div><span class="dot"></span>
     </div>
 
-    <div class="formContent">
-      <div class="previewCard" id="previewCard">
-        <img id="previewImg" alt="Your reward" />
-      </div>
-
-      <form id="leadForm" class="stack">
-        <input class="field" id="nameField" name="name" autocomplete="name" placeholder="Name" aria-label="Name" required>
-        <input class="field" id="phoneField" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-               placeholder="Phone number" aria-label="Phone number" required>
-
-        <div class="btnRow">
-          <button class="btn primary" type="submit">Get insights</button>
-          <button class="btn" type="button" id="backBtn">Back</button>
+    <div class="formScroll">
+      <div class="formContent">
+        <div class="previewCard">
+          <img id="previewImg" alt="Your reward" />
         </div>
-      </form>
+
+        <form id="leadForm" class="stack">
+          <input class="field" id="nameField" name="name" autocomplete="name" placeholder="Name" aria-label="Name" required>
+          <input class="field" id="phoneField" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                 placeholder="Phone number" aria-label="Phone number" required>
+
+          <div class="btnRow">
+            <button class="btn primary" type="submit">Get insights</button>
+            <button class="btn" type="button" id="backBtn">Back</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <!-- Fullscreen checkmark -->
   <div class="successOverlay" id="successOverlay" aria-hidden="true">
     <div class="badge">
       <div class="check">✓</div>
@@ -566,11 +571,9 @@
     const fxCanvas     = document.getElementById("fx");
     const ctx          = fxCanvas.getContext("2d");
 
-    // timers
     let revealTimer = null;
     let successTimer = null;
 
-    // ---- Dust ----
     function makeDust(){
       ambient.innerHTML = "";
       const count = 18;
@@ -593,7 +596,6 @@
       }
     }
 
-    // ---- Canvas resize ----
     function resizeCanvas(){
       const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
       fxCanvas.width  = Math.floor(fxCanvas.clientWidth * dpr);
@@ -603,8 +605,7 @@
     window.addEventListener("resize", resizeCanvas, {passive:true});
     resizeCanvas();
 
-    // ---- Modes ----
-    let mode = "choose"; // choose -> rub -> win
+    let mode = "choose";
     let rubbing = false;
     let lastX = 0, lastY = 0;
     let rubDistance = 0;
@@ -665,21 +666,18 @@
       body.classList.remove("mode-choose","mode-rub");
       body.classList.add("mode-win");
 
-      // show prize immediately (center)
       rewardImg.src = prizeUrl;
       rewardWrap.style.opacity = 1;
       rewardWrap.classList.add("show");
 
-      // fireworks behind product (origin = product center)
-      requestAnimationFrame(() => {
-        startFireworksBehindPrize();
-      });
+      requestAnimationFrame(() => startFireworksBehindPrize());
 
-      // show product for ~1.4s then open FULLSCREEN form
       previewImg.src = prizeUrl;
+
+      // ✅ show product longer before form (was 1400ms)
       revealTimer = setTimeout(() => {
         showForm();
-      }, 1400);
+      }, 2200); // ~2.2s
     }
 
     function resetAll(){
@@ -709,14 +707,12 @@
       stopFireworks();
     }
 
-    // Enter rub mode
     centerBtn.addEventListener("click", () => {
       if (mode === "choose") toRubMode();
     });
 
     backBtn.addEventListener("click", resetAll);
 
-    // ---- Rub gesture ----
     function insideLamp(clientX, clientY){
       const r = centerLamp.getBoundingClientRect();
       const pad = Math.min(r.width, r.height) * 0.08;
@@ -756,7 +752,6 @@
 
       const t = performance.now() - rubStart;
 
-      // ~1–2 sec + movement
       const timeOk = t / 1100;
       const distOk = rubDistance / 900;
       const p = Math.min(1, (timeOk * 0.62) + (distOk * 0.38));
@@ -787,7 +782,6 @@
       toWinMode(prizeUrl);
     }
 
-    // ---- Form submit ----
     leadForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -803,18 +797,16 @@
 
       console.log("Lead submitted:", { name, phone });
 
-      // fullscreen checkmark
       hideForm();
       successOverlay.classList.add("show");
       successOverlay.setAttribute("aria-hidden","false");
 
-      // auto reset
       successTimer = setTimeout(() => resetAll(), 1500);
     });
 
     successOverlay.addEventListener("click", resetAll);
 
-    // ---- Fireworks (behind product) ----
+    // Fireworks
     let particles = [];
     let burstsActive = false;
     let rafId = null;
@@ -883,7 +875,6 @@
       const w = fxCanvas.clientWidth;
       const h = fxCanvas.clientHeight;
 
-      // lighter trail
       ctx.fillStyle = "rgba(255,255,255,0.18)";
       ctx.fillRect(0,0,w,h);
 
@@ -908,7 +899,7 @@
       if (!burstsActive && particles.length === 0){
         cancelAnimationFrame(rafId);
         rafId = null;
-        ctx.clearRect(0,0,w,h);
+        ctx.clearRect(0,0,fxCanvas.clientWidth, fxCanvas.clientHeight);
       }
     }
 
